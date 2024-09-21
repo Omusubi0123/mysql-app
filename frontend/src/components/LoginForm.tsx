@@ -10,7 +10,6 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onLoginFailure}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -18,33 +17,33 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onLoginFailure}) 
 
         try {
             const response = await loginUser(email, password);
-            console.log("Response received", response);
             onLoginSuccess(response.data.token);
-            setMessage('Login successful');
+            console.log("Response received", response);
         } catch (error) {
             onLoginFailure('Login failed');
-            setMessage('Login failed');
             console.error("Error logging in", error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Login</h2>
+        <form onSubmit={handleSubmit} className='space-y-4'>
             <input
                 type="email"
                 placeholder='Email'
                 value={email}
                 onChange={e => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
             <input
                 type="password"
                 placeholder='Password'
                 value={password}
                 onChange={e => setPassword(e.target.value)}
+                className='w-full px-4 py-2 border rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-600'
             />
-            <button type="submit">Login</button>
-            {message && <p>{message}</p>}
+            <button type="submit" className="w-full py-2 bg-blue-600 text-white rounded-lg text-lg font-semibold">
+                Login
+            </button>
         </form>
     );
 };
